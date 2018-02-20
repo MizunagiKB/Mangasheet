@@ -66,6 +66,9 @@ def gen_comicbase(dpi, margin, comment="", Jmarks=False):
     B5_paper_w, B5_paper_h = mm_to_px(182.0, 257.0, dpi)
     B5margin_w, B5margin_h = mm_to_px((182.0 - 2.0), (257.0 + 2.0) + (margin << 1), dpi)
 
+    Jmarks_w, Jmarks_h = mm_to_px(182 + (margin << 1), 257 + (margin << 1), dpi)
+    szMargin, sz10 = mm_to_px(3.0, 10.0, dpi)
+
     o_image = PIL.Image.new("RGB", (A4_paper_w, A4_paper_h), COLOR_WHITE)
 
     if Jmarks is True:
@@ -73,6 +76,39 @@ def gen_comicbase(dpi, margin, comment="", Jmarks=False):
         draw_center_rect(o_image, 182, 999, dpi, 1)
 
         o_draw = PIL.ImageDraw.Draw(o_image)
+
+        # Jmark LR
+        o_draw.line(
+            (
+                ((A4_paper_w - Jmarks_w) >> 1) - szMargin, (A4_paper_h >> 1) - sz10,
+                ((A4_paper_w - Jmarks_w) >> 1) - szMargin, (A4_paper_h >> 1) + sz10,
+            ),
+            fill=COLOR_LBLUE, width=1
+            )
+        o_draw.line(
+            (
+                (A4_paper_w - ((A4_paper_w - Jmarks_w) >> 1)) + szMargin, (A4_paper_h >> 1) - sz10,
+                (A4_paper_w - ((A4_paper_w - Jmarks_w) >> 1)) + szMargin, (A4_paper_h >> 1) + sz10,
+            ),
+            fill=COLOR_LBLUE, width=1
+            )
+
+        # Jmark TB
+        o_draw.line(
+            (
+                (A4_paper_w >> 1) - sz10, ((A4_paper_h - Jmarks_h) >> 1) - szMargin,
+                (A4_paper_w >> 1) + sz10, ((A4_paper_h - Jmarks_h) >> 1) - szMargin,
+            ),
+            fill=COLOR_LBLUE, width=1
+            )
+        o_draw.line(
+            (
+                (A4_paper_w >> 1) - sz10, (A4_paper_h - ((A4_paper_h - Jmarks_h) >> 1)) + szMargin,
+                (A4_paper_w >> 1) + sz10, (A4_paper_h - ((A4_paper_h - Jmarks_h) >> 1)) + szMargin,
+            ),
+            fill=COLOR_LBLUE, width=1
+            )
+
         o_draw.line(
             (
                 A4_paper_w >> 1, 0, A4_paper_w >> 1, A4_paper_h
