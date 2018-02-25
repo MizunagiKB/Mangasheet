@@ -169,7 +169,7 @@ def main():
         help="Margin")
     parser.add_argument(
         "-d", "--dpi", type=int, required=False, default=DPI,
-        help="Output filename")
+        help="Image resolution")
 
     o_argv = parser.parse_args()
 
